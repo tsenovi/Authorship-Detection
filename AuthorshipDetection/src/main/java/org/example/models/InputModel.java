@@ -1,24 +1,33 @@
 package org.example.models;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import org.example.controllers.InputController;
 
 public class InputModel {
 
+  private static InputModel instance;
   private final FileReader fileReader;
+  private List<String> paragraphs;
 
-  private ArrayList<String> paragraphs;
-
-  public InputModel() {
-    fileReader = new FileReader();
+  private InputModel() {
+    fileReader = FileReader.getInstance();
     paragraphs = new ArrayList<>();
+  }
+
+  public static InputModel getInstance() {
+    if (instance == null) {
+      instance = new InputModel();
+    }
+
+    return instance;
   }
 
   public void loadInputFile(String filePath) {
     paragraphs = fileReader.readByParagraph(filePath);
   }
 
-  public ArrayList<String> getParagraphs() {
-    return paragraphs;
+  public List<String> getParagraphs() {
+    return List.copyOf(paragraphs);
   }
 }
