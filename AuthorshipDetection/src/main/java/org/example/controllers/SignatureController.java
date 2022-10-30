@@ -1,14 +1,14 @@
 package org.example.controllers;
 
 import java.util.List;
-import org.example.parsers.AverageSentenceComplexity;
-import org.example.parsers.AverageSentenceLength;
-import org.example.parsers.AverageWordLength;
-import org.example.parsers.Calculable;
-import org.example.parsers.HapaxLegomenaRatio;
-import org.example.parsers.ParsedText;
-import org.example.parsers.TextParser;
-import org.example.parsers.TypeTokenRatio;
+import org.example.utils.features.AverageSentenceComplexity;
+import org.example.utils.features.AverageSentenceLength;
+import org.example.utils.features.AverageWordLength;
+import org.example.utils.features.Calculable;
+import org.example.utils.features.HapaxLegomenaRatio;
+import org.example.models.dto.ParsedText;
+import org.example.utils.TextParser;
+import org.example.utils.features.TypeTokenRatio;
 import org.example.models.SignatureModel;
 
 public class SignatureController {

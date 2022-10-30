@@ -1,4 +1,6 @@
-package org.example.parsers;
+package org.example.utils.features;
+
+import org.example.models.dto.ParsedText;
 
 public class AverageWordLength implements Calculable {
 
@@ -16,6 +18,6 @@ public class AverageWordLength implements Calculable {
   }
 
   public double calculateFeature(ParsedText parsedText) {
-    return (double) parsedText.getCharacterCount() / parsedText.getWordCount();
+    return (double) parsedText.characterCount() / parsedText.wordCount();
   }
 }

@@ -1,4 +1,6 @@
-package org.example.parsers;
+package org.example.utils.features;
+
+import org.example.models.dto.ParsedText;
 
 public class AverageSentenceLength implements Calculable {
 
@@ -16,6 +18,6 @@ public class AverageSentenceLength implements Calculable {
   }
 
   public double calculateFeature(ParsedText parsedText) {
-    return (double) parsedText.getWordCount() / parsedText.getSentenceCount();
+    return (double) parsedText.wordCount() / parsedText.sentenceCount();
   }
 }

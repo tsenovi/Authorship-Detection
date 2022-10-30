@@ -1,5 +1,7 @@
 package org.example.models;
 
+import org.example.utils.FileReader;
+
 public class SignatureModel {
 
   private static SignatureModel instance;

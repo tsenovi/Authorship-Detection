@@ -1,4 +1,6 @@
-package org.example.parsers;
+package org.example.utils.features;
+
+import org.example.models.dto.ParsedText;
 
 public class AverageSentenceComplexity implements Calculable {
 
@@ -16,6 +18,6 @@ public class AverageSentenceComplexity implements Calculable {
   }
 
   public double calculateFeature(ParsedText parsedText) {
-    return (double) parsedText.getPhraseCount() / parsedText.getSentenceCount();
+    return (double) parsedText.phraseCount() / parsedText.sentenceCount();
   }
 }

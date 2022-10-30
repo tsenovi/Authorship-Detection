@@ -1,4 +1,6 @@
-package org.example.parsers;
+package org.example.utils.features;
+
+import org.example.models.dto.ParsedText;
 
 public class HapaxLegomenaRatio implements Calculable {
 
@@ -16,6 +18,6 @@ public class HapaxLegomenaRatio implements Calculable {
   }
 
   public double calculateFeature(ParsedText parsedText) {
-    return (double) parsedText.getNonRecurringWordCount() / parsedText.getWordCount();
+    return (double) parsedText.nonRecurringWordCount() / parsedText.wordCount();
   }
 }

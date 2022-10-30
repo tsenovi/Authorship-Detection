@@ -1,8 +1,10 @@
-package org.example.parsers;
+package org.example.utils;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 import org.example.expressions.RegexPattern;
+import org.example.models.dto.ParsedText;
 
 public class TextParser {
 
@@ -24,16 +26,35 @@ public class TextParser {
       return null;
     }
 
-    ParsedText parsedText = new ParsedText();
+    return getParsedText(paragraph);
+  }
+
+  private ParsedText getParsedText(String paragraph) {
     String cleanText = cleanNewLines(paragraph);
 
-    parsedText.setWordCount(calculateWordCount(cleanText));
-    parsedText.setSentenceCount(calculateSentenceCount(cleanText));
-    parsedText.setPhraseCount(calculatePhraseCount(cleanText));
-    parsedText.setCharacterCount(calculateCharacterCount(cleanText));
-    parsedText.setUniqueWordCount(calculateUniqueWordCount(cleanText));
-    
-    return parsedText;
+    int wordCount = calculateWordCount(cleanText);
+    int sentenceCount = calculateSentenceCount(cleanText);
+    int phraseCount = calculatePhraseCount(cleanText);
+    int characterCount = calculateCharacterCount(cleanText);
+    int uniqueWordCount = calculateUniqueWordCount(cleanText);
+    int nonRecurringWordCount = calculateNonRecurringWordCount(cleanText);
+
+    return new ParsedText(sentenceCount, phraseCount, wordCount, uniqueWordCount,
+        nonRecurringWordCount, characterCount);
+  }
+
+  private int calculateNonRecurringWordCount(String text) {
+    String cleanText = cleanAllPunctuation(text);
+    String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    Set<String> allWords = new HashSet<>();
+    Set<String> duplicateWords = new HashSet<>();
+    for (String i : words) {
+      if (!allWords.add(i)) {
+        duplicateWords.add(i);
+      }
+    }
+
+    return (allWords.size() - duplicateWords.size());
   }
 
   private int calculateUniqueWordCount(String text) {

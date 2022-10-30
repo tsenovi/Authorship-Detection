@@ -2,7 +2,7 @@ package org.example.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.example.controllers.InputController;
+import org.example.utils.FileReader;
 
 public class InputModel {
 
