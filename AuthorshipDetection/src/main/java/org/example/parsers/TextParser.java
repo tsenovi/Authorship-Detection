@@ -1,5 +1,7 @@
 package org.example.parsers;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import org.example.expressions.RegexPattern;
 
 public class TextParser {
@@ -22,32 +24,39 @@ public class TextParser {
       return null;
     }
 
-    String cleanText = cleanNewLines(paragraph);
     ParsedText parsedText = new ParsedText();
+    String cleanText = cleanNewLines(paragraph);
+
     parsedText.setWordCount(calculateWordCount(cleanText));
     parsedText.setSentenceCount(calculateSentenceCount(cleanText));
     parsedText.setPhraseCount(calculatePhraseCount(cleanText));
     parsedText.setCharacterCount(calculateCharacterCount(cleanText));
+    parsedText.setUniqueWordCount(calculateUniqueWordCount(cleanText));
+    
     return parsedText;
   }
 
+  private int calculateUniqueWordCount(String text) {
+    String cleanText = cleanAllPunctuation(text);
+    String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    HashSet<String> uniqueWords = new HashSet<>(Arrays.asList(words));
+    return uniqueWords.size();
+  }
+
   private int calculateCharacterCount(String text) {
-    String textToParse = new String(text);
-    String cleanText = subtractCharacters(textToParse);
+    String cleanText = subtractCharacters(text);
     String[] characters = cleanText.split(RegexPattern.EMPTY_STRING.getText());
     return characters.length;
   }
 
   private int calculatePhraseCount(String text) {
-    String textToParse = new String(text);
-    String[] phrases = textToParse.split(RegexPattern.PHRASE_SEPARATOR.getText());
+    String[] phrases = text.split(RegexPattern.PHRASE_SEPARATOR.getText());
     return phrases.length;
   }
 
   private int calculateSentenceCount(String text) {
-    String textToParse = new String(text);
-    int abbreviationCount = calculateAbbreviationCount(textToParse);
-    final String[] sentences = textToParse.split(RegexPattern.SENTENCE_SEPARATOR.getText());
+    int abbreviationCount = calculateAbbreviationCount(text);
+    final String[] sentences = text.split(RegexPattern.SENTENCE_SEPARATOR.getText());
     return sentences.length - abbreviationCount;
   }
 
@@ -70,8 +79,7 @@ public class TextParser {
   }
 
   private int calculateWordCount(String text) {
-    String textToParse = new String(text);
-    String cleanText = cleanAllPunctuation(textToParse);
+    String cleanText = cleanAllPunctuation(text);
     final String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
     return words.length;
   }
