@@ -24,6 +24,7 @@ public class InputView {
   }
 
   public void printInputInstructions() {
-    show("File destination path: ");
+    show("Path Example: C:\\Users\\User\\Desktop\\test.txt\n");
+    show("Input path: ");
   }
 }

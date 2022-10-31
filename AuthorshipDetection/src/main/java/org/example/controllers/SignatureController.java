@@ -1,6 +1,10 @@
 package org.example.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.example.expressions.FeatureType;
+import org.example.models.data.LinguisticSignature;
 import org.example.utils.features.AverageSentenceComplexity;
 import org.example.utils.features.AverageSentenceLength;
 import org.example.utils.features.AverageWordLength;
@@ -41,14 +45,13 @@ public class SignatureController {
   }
 
   public void onReceivedData(List<String> paragraphs) {
-    //TODO
-    //Create collection for signatures for every paragraph and save it
     for (String paragraph : paragraphs) {
-      calculateSignature(paragraph);
+      LinguisticSignature linguisticSignature = calculateSignature(paragraph);
+      signatureModel.saveUnknownSignature(linguisticSignature);
     }
   }
 
-  private void calculateSignature(String paragraph) {
+  private LinguisticSignature calculateSignature(String paragraph) {
     ParsedText parsedText = textParser.parse(paragraph);
     double averageWordLength = this.averageWordLength.calculateFeature(parsedText);
     double typeTokenRatio = this.typeTokenRatio.calculateFeature(parsedText);
@@ -56,7 +59,13 @@ public class SignatureController {
     double averageSentenceLength = this.averageSentenceLength.calculateFeature(parsedText);
     double averageSentenceComplexity = this.averageSentenceComplexity.calculateFeature(parsedText);
 
-    //TODO
-    //Return Signature object with calculated features and add it to the collection
+    Map<FeatureType, Double> unknownSignatures = new HashMap<>();
+    unknownSignatures.put(FeatureType.AVERAGE_WORD_LENGTH, averageWordLength);
+    unknownSignatures.put(FeatureType.TYPE_TOKEN_RATIO, typeTokenRatio);
+    unknownSignatures.put(FeatureType.HAPAX_LEGOMENA_RATIO, hapaxLegomenaRatio);
+    unknownSignatures.put(FeatureType.AVERAGE_SENTENCE_LENGTH, averageSentenceLength);
+    unknownSignatures.put(FeatureType.AVERAGE_SENTENCE_COMPLEXITY, averageSentenceComplexity);
+
+    return new LinguisticSignature(unknownSignatures);
   }
 }
