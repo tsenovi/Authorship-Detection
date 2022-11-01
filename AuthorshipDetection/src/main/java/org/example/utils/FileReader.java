@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import org.example.expressions.RegexPattern;
 
 public class FileReader {
 
@@ -25,8 +26,8 @@ public class FileReader {
   public List<String> readByParagraph(String inputPath) {
     List<String> paragraphs = new ArrayList<>();
     Path filePath = Path.of(inputPath);
-    try (Scanner scanner = new Scanner(filePath)
-        .useDelimiter(Pattern.compile("^\\s*$", Pattern.MULTILINE))) {
+    try (Scanner scanner = new Scanner(filePath).useDelimiter(
+        Pattern.compile(RegexPattern.EMPTY_ROW.getText(), Pattern.MULTILINE))) {
       while (scanner.hasNext()) {
         String paragraph = scanner.next();
         paragraphs.add(paragraph);

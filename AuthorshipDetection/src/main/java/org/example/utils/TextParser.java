@@ -45,7 +45,7 @@ public class TextParser {
 
   private int calculateNonRecurringWordCount(String text) {
     String cleanText = cleanAllPunctuation(text);
-    String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    String[] words = cleanText.split(RegexPattern.SINGLE_WHITESPACE.getText());
     Set<String> allWords = new HashSet<>();
     Set<String> duplicateWords = new HashSet<>();
     for (String i : words) {
@@ -59,7 +59,7 @@ public class TextParser {
 
   private int calculateUniqueWordCount(String text) {
     String cleanText = cleanAllPunctuation(text);
-    String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    String[] words = cleanText.split(RegexPattern.SINGLE_WHITESPACE.getText());
     HashSet<String> uniqueWords = new HashSet<>(Arrays.asList(words));
     return uniqueWords.size();
   }
@@ -86,7 +86,7 @@ public class TextParser {
         RegexPattern.MR.getText(), RegexPattern.MRS.getText(),
         RegexPattern.MISS.getText(), RegexPattern.DR.getText()
     };
-    String[] words = text.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    String[] words = text.split(RegexPattern.SINGLE_WHITESPACE.getText());
     int abbreviationCount = 0;
     for (String word : words) {
       for (String abbreviation : abbreviations) {
@@ -101,7 +101,7 @@ public class TextParser {
 
   private int calculateWordCount(String text) {
     String cleanText = cleanAllPunctuation(text);
-    final String[] words = cleanText.split(RegexPattern.SINGLE_WHITE_SPACE.getText());
+    final String[] words = cleanText.split(RegexPattern.SINGLE_WHITESPACE.getText());
     return words.length;
   }
 
@@ -109,7 +109,7 @@ public class TextParser {
     return text.replaceAll(
             RegexPattern.PUNCTUATION.getText(),
             RegexPattern.EMPTY_STRING.getText())
-        .replaceAll(RegexPattern.SINGLE_WHITE_SPACE.getText(),
+        .replaceAll(RegexPattern.SINGLE_WHITESPACE.getText(),
             RegexPattern.EMPTY_STRING.getText());
   }
 
@@ -122,8 +122,8 @@ public class TextParser {
   private String cleanNewLines(String text) {
     return text.toLowerCase().trim()
         .replaceAll(System.lineSeparator(),
-            RegexPattern.SINGLE_WHITE_SPACE.getText())
-        .replaceAll(RegexPattern.CONTIGUOUS_WHITE_SPACE.getText(),
-            RegexPattern.SINGLE_WHITE_SPACE.getText());
+            RegexPattern.SINGLE_WHITESPACE.getText())
+        .replaceAll(RegexPattern.CONTIGUOUS_WHITESPACE.getText(),
+            RegexPattern.SINGLE_WHITESPACE.getText());
   }
 }

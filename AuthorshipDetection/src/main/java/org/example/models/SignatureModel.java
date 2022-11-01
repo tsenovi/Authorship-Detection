@@ -3,18 +3,19 @@ package org.example.models;
 import java.util.ArrayList;
 import java.util.List;
 import org.example.models.data.LinguisticSignature;
-import org.example.utils.FileReader;
+import org.example.utils.SignatureReader;
 
 public class SignatureModel {
 
   private static SignatureModel instance;
-  private final FileReader fileReader;
-
+  private final SignatureReader signatureReader;
+  private List<LinguisticSignature> knownSignatures;
   private final List<LinguisticSignature> unknownSignatures;
 
   private SignatureModel() {
-    fileReader = FileReader.getInstance();
+    signatureReader = SignatureReader.getInstance();
     unknownSignatures = new ArrayList<>();
+    loadKnownSignatures();
   }
 
   public static SignatureModel getInstance() {
@@ -25,6 +26,10 @@ public class SignatureModel {
     return instance;
   }
 
+  public List<LinguisticSignature> getKnownSignatures() {
+    return knownSignatures;
+  }
+
   public List<LinguisticSignature> getUnknownSignatures() {
     return unknownSignatures;
   }
@@ -33,6 +38,7 @@ public class SignatureModel {
     unknownSignatures.add(linguisticSignature);
   }
 
-  //TODO
-  //Method for loading the data from knownSignature.txt through the FileReader
+  private void loadKnownSignatures() {
+    knownSignatures = signatureReader.readyByLine();
+  }
 }

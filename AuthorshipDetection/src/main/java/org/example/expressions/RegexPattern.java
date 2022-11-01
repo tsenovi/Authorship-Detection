@@ -2,12 +2,15 @@ package org.example.expressions;
 
 public enum RegexPattern {
 
+  KNOWN_SIGNATURES_PATH("src/main/resources/knownSignatures.txt"),
   EMPTY_STRING(""),
+  EMPTY_ROW("^\\s*$"),
   SENTENCE_SEPARATOR("[.!?]+"),
   PHRASE_SEPARATOR("[,:;]+"),
   PUNCTUATION("\\p{P}"),
-  SINGLE_WHITE_SPACE(" "),
-  CONTIGUOUS_WHITE_SPACE("\\s+"),
+  SINGLE_WHITESPACE(" "),
+  COMMA_AND_WHITESPACE(", "),
+  CONTIGUOUS_WHITESPACE("\\s+"),
   MR("mr."),
   MRS("mrs."),
   MISS("miss."),
