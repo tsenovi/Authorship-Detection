@@ -19,6 +19,7 @@ public class SignatureController {
 
   private static SignatureController instance;
   private final SignatureModel signatureModel;
+  private final OutputController outputController;
   private final TextParser textParser;
   private final Calculable averageWordLength;
   private final Calculable typeTokenRatio;
@@ -28,6 +29,7 @@ public class SignatureController {
 
   private SignatureController() {
     signatureModel = SignatureModel.getInstance();
+    outputController = OutputController.getInstance();
     textParser = TextParser.getInstance();
     averageWordLength = AverageWordLength.getInstance();
     typeTokenRatio = TypeTokenRatio.getInstance();
@@ -45,6 +47,16 @@ public class SignatureController {
   }
 
   public void onReceivedData(List<String> paragraphs) {
+    findSignatures(paragraphs);
+    updateOutputController();
+  }
+
+  private void updateOutputController() {
+    outputController.onReceivedData(signatureModel.getKnownSignatures(),
+        signatureModel.getUnknownSignatures());
+  }
+
+  private void findSignatures(List<String> paragraphs) {
     for (String paragraph : paragraphs) {
       LinguisticSignature linguisticSignature = calculateSignature(paragraph);
       signatureModel.saveUnknownSignature(linguisticSignature);
@@ -59,13 +71,13 @@ public class SignatureController {
     double averageSentenceLength = this.averageSentenceLength.calculateFeature(parsedText);
     double averageSentenceComplexity = this.averageSentenceComplexity.calculateFeature(parsedText);
 
-    Map<FeatureType, Double> unknownSignatures = new HashMap<>();
-    unknownSignatures.put(FeatureType.AVERAGE_WORD_LENGTH, averageWordLength);
-    unknownSignatures.put(FeatureType.TYPE_TOKEN_RATIO, typeTokenRatio);
-    unknownSignatures.put(FeatureType.HAPAX_LEGOMENA_RATIO, hapaxLegomenaRatio);
-    unknownSignatures.put(FeatureType.AVERAGE_SENTENCE_LENGTH, averageSentenceLength);
-    unknownSignatures.put(FeatureType.AVERAGE_SENTENCE_COMPLEXITY, averageSentenceComplexity);
+    Map<FeatureType, Double> features = new HashMap<>();
+    features.put(FeatureType.AVERAGE_WORD_LENGTH, averageWordLength);
+    features.put(FeatureType.TYPE_TOKEN_RATIO, typeTokenRatio);
+    features.put(FeatureType.HAPAX_LEGOMENA_RATIO, hapaxLegomenaRatio);
+    features.put(FeatureType.AVERAGE_SENTENCE_LENGTH, averageSentenceLength);
+    features.put(FeatureType.AVERAGE_SENTENCE_COMPLEXITY, averageSentenceComplexity);
 
-    return new LinguisticSignature(unknownSignatures);
+    return new LinguisticSignature(features);
   }
 }

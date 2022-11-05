@@ -27,11 +27,11 @@ public class SignatureModel {
   }
 
   public List<LinguisticSignature> getKnownSignatures() {
-    return knownSignatures;
+    return List.copyOf(knownSignatures);
   }
 
   public List<LinguisticSignature> getUnknownSignatures() {
-    return unknownSignatures;
+    return List.copyOf(unknownSignatures);
   }
 
   public void saveUnknownSignature(LinguisticSignature linguisticSignature) {
