@@ -4,6 +4,7 @@ package org.example.models;
 public class OutputModel {
 
   private static OutputModel instance;
+
   private double[][] results;
 
   private OutputModel() {
@@ -18,5 +19,12 @@ public class OutputModel {
     return instance;
   }
 
+  public double[][] getResults() {
+    return results;
+  }
 
+
+  public void save(double[][] similarities) {
+    results = similarities;
+  }
 }

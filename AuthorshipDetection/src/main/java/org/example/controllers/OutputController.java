@@ -4,14 +4,17 @@ import java.util.List;
 import org.example.models.OutputModel;
 import org.example.models.data.LinguisticSignature;
 import org.example.utils.AuthorshipDetector;
+import org.example.views.OutputView;
 
 public class OutputController {
 
   private static OutputController instance;
+  private final OutputView outputView;
   private final OutputModel outputModel;
   private final AuthorshipDetector authorshipDetector;
 
   private OutputController() {
+    outputView = OutputView.getInstance();
     outputModel = OutputModel.getInstance();
     authorshipDetector = AuthorshipDetector.getInstance();
   }
@@ -31,6 +34,21 @@ public class OutputController {
 
   private void calculateResults(List<LinguisticSignature> knownSignatures,
       List<LinguisticSignature> unknownSignatures) {
-    authorshipDetector.compare(unknownSignatures, knownSignatures);
+    double[][] similarities = authorshipDetector.compare(unknownSignatures, knownSignatures);
+    onReceivedResults(similarities  );
+  }
+
+  private void onReceivedResults(double[][] similarities) {
+    updateModel(similarities);
+    updateView();
+  }
+
+  private void updateView() {
+    double[][] results = outputModel.getResults();
+    outputView.printResults(results);
+  }
+
+  private void updateModel(double[][] similarities) {
+    outputModel.save(similarities);
   }
 }

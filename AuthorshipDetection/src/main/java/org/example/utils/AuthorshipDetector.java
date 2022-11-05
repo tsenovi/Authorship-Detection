@@ -34,7 +34,7 @@ public class AuthorshipDetector {
     return instance;
   }
 
-  public void compare(List<LinguisticSignature> unknownSignatures,
+  public double[][] compare(List<LinguisticSignature> unknownSignatures,
       List<LinguisticSignature> knownSignatures) {
     double[][] results = new double[unknownSignatures.size()][knownSignatures.size()];
 
@@ -44,9 +44,11 @@ public class AuthorshipDetector {
       for (int known = 0; known < knownSignatures.size(); known++) {
         LinguisticSignature knownSignature = knownSignatures.get(known);
 
-        double similarity = calculateSimilarity(unknownSignature, knownSignature);
+        results[unknown][known] = calculateSimilarity(unknownSignature, knownSignature);
       }
     }
+
+    return results;
   }
 
   private double calculateSimilarity(LinguisticSignature unknownSignature,
