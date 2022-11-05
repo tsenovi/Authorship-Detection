@@ -11,6 +11,7 @@ public enum RegexPattern {
   SINGLE_WHITESPACE(" "),
   COMMA_AND_WHITESPACE(", "),
   CONTIGUOUS_WHITESPACE("\\s+"),
+  NEW_LINE("\n"),
   MR("mr."),
   MRS("mrs."),
   MISS("miss."),

@@ -1,6 +1,8 @@
 package org.example.views;
 
 
+import java.util.Arrays;
+import org.example.expressions.RegexPattern;
 
 public class OutputView {
 
@@ -22,6 +24,18 @@ public class OutputView {
   }
 
   public void printResults(double[][] results) {
-    
+    for (int col = 0; col < results[0].length; col++) {
+      show("\tAuthor." + (col + 1));
+    }
+
+    show(RegexPattern.NEW_LINE.getText());
+
+    for (int row = 0; row < results.length; row++) {
+      show("Text." + (row + 1) + RegexPattern.SINGLE_WHITESPACE.getText());
+      for (int col = 0; col < results[row].length; col++) {
+        show(String.valueOf(results[row][col]) + RegexPattern.SINGLE_WHITESPACE.getText());
+      }
+      show(RegexPattern.NEW_LINE.getText());
+    }
   }
 }
