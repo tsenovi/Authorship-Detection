@@ -4,6 +4,7 @@ import java.util.List;
 import org.example.models.OutputModel;
 import org.example.models.data.LinguisticSignature;
 import org.example.utils.AuthorshipDetector;
+import org.example.utils.SimilarityConvertor;
 import org.example.views.OutputView;
 
 public class OutputController {
@@ -13,10 +14,13 @@ public class OutputController {
   private final OutputModel outputModel;
   private final AuthorshipDetector authorshipDetector;
 
+  private final SimilarityConvertor similarityConvertor;
+
   private OutputController() {
     outputView = OutputView.getInstance();
     outputModel = OutputModel.getInstance();
     authorshipDetector = AuthorshipDetector.getInstance();
+    similarityConvertor = SimilarityConvertor.getInstance();
   }
 
   public static OutputController getInstance() {
@@ -34,8 +38,10 @@ public class OutputController {
 
   private void calculateResults(List<LinguisticSignature> knownSignatures,
       List<LinguisticSignature> unknownSignatures) {
+
     double[][] similarities = authorshipDetector.compare(unknownSignatures, knownSignatures);
-    onReceivedResults(similarities  );
+    similarityConvertor.parseToPercentage(similarities);
+    onReceivedResults(similarities);
   }
 
   private void onReceivedResults(double[][] similarities) {

@@ -3,6 +3,7 @@ package org.example.expressions;
 public enum RegexPattern {
 
   KNOWN_SIGNATURES_PATH("src/main/resources/knownSignatures.txt"),
+  DOUBLE_FORMAT("#0.00"),
   EMPTY_STRING(""),
   EMPTY_ROW("^\\s*$"),
   SENTENCE_SEPARATOR("[.!?]+"),

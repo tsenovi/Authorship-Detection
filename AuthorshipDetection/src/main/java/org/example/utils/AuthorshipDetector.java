@@ -1,6 +1,9 @@
 package org.example.utils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import org.example.expressions.RegexPattern;
 import org.example.models.data.LinguisticSignature;
 import org.example.utils.comparators.AverageSentenceComplexity;
 import org.example.utils.comparators.AverageSentenceLength;
@@ -36,15 +39,15 @@ public class AuthorshipDetector {
 
   public double[][] compare(List<LinguisticSignature> unknownSignatures,
       List<LinguisticSignature> knownSignatures) {
+
     double[][] results = new double[unknownSignatures.size()][knownSignatures.size()];
 
-    for (int unknown = 0; unknown < unknownSignatures.size(); unknown++) {
-      LinguisticSignature unknownSignature = unknownSignatures.get(unknown);
+    for (int elementRow = 0; elementRow < unknownSignatures.size(); elementRow++) {
+      LinguisticSignature unknownSignature = unknownSignatures.get(elementRow);
 
-      for (int known = 0; known < knownSignatures.size(); known++) {
-        LinguisticSignature knownSignature = knownSignatures.get(known);
-
-        results[unknown][known] = calculateSimilarity(unknownSignature, knownSignature);
+      for (int elementColumn = 0; elementColumn < knownSignatures.size(); elementColumn++) {
+        LinguisticSignature knownSignature = knownSignatures.get(elementColumn);
+        results[elementRow][elementColumn] = calculateSimilarity(unknownSignature, knownSignature);
       }
     }
 
@@ -65,8 +68,12 @@ public class AuthorshipDetector {
     double averageSentenceComplexityContribution = averageSentenceComplexity.calculateSimilarity(
         unknownSignature, knownSignature);
 
-    return (averageWordLengthContribution + hapaxLegomenaRatioContribution
-        + typeTokenRatioContribution + averageSentenceLengthContribution
-        + averageSentenceComplexityContribution);
+    NumberFormat formatter = new DecimalFormat(
+        RegexPattern.DOUBLE_FORMAT.getText());
+
+    return Double.parseDouble(
+        formatter.format(averageWordLengthContribution + hapaxLegomenaRatioContribution +
+            typeTokenRatioContribution + averageSentenceLengthContribution +
+            averageSentenceComplexityContribution));
   }
 }
